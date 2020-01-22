@@ -1,10 +1,4 @@
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
 import java.text.SimpleDateFormat;
 
 public class Main
@@ -18,6 +12,14 @@ public class Main
         System.out.println("Имя первого студента: " + student1.getName());
         System.out.println("Возраст первого студента: " + student1.getAge());
         System.out.println("Дата регистрации первого студента: " + format.format(student1.getRegistrationDate().getTime()));
+
+        Course course = session.get(Course.class, 1);
+        System.out.println("Course №1: " + course.getName() + " - " + course.getTeacher().getName() + " - " + course.getStudents().get(1).getName());
+
+        Purchase purchase = session.get(Purchase.class, new PurchaseId("Жариков Афанасий", "Веб-разработчик c 0 до PRO"));
+        System.out.println(format.format(purchase.getSubscriptionDate().getTime()));
+        Subscription subscription = session.get(Subscription.class, new SubscriptionId(1,2));
+        System.out.println(format.format(subscription.getSubscriptionDate().getTime()));
 
         GetSessionFactory.closeSession();
     }
