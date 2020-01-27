@@ -1,31 +1,33 @@
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
 public class SubscriptionId implements Serializable {
 
-    private int courseId;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Course course;
 
-    private int studentId;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Student student;
 
-    SubscriptionId(int courseId, int studentId){
-        this.courseId = courseId;
-        this.studentId = studentId;
+    SubscriptionId(Course course, Student student){
+        this.course = course;
+        this.student = student;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

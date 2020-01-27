@@ -3,24 +3,10 @@ import java.util.Calendar;
 
 @Entity
 @Table(name = "Subscriptions")
-@IdClass(SubscriptionId.class)
 public class Subscription
 {
-    @Id
-    @AttributeOverrides({
-            @AttributeOverride(name = "studentId",
-                    column = @Column(name="student_id")),
-            @AttributeOverride(name = "courseId",
-                    column = @Column(name="course_id"))
-    })
-
-
-    @Column(name = "student_id")
-    private int studentId;
-
-
-    @Column(name = "course_id")
-    private int courseId;
+    @EmbeddedId
+    private SubscriptionId id;
 
     @Column(name = "subscription_date")
     @Temporal(TemporalType.TIMESTAMP)
@@ -35,19 +21,11 @@ public class Subscription
         this.subscriptionDate = subscriptionDate;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public SubscriptionId getId() {
+        return id;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
-    public int getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setId(SubscriptionId id) {
+        this.id = id;
     }
 }

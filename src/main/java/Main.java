@@ -14,12 +14,12 @@ public class Main
         System.out.println("Дата регистрации первого студента: " + format.format(student1.getRegistrationDate().getTime()));
 
         Course course = session.get(Course.class, 1);
-        System.out.println("Course №1: " + course.getName() + " - " + course.getTeacher().getName() + " - " + course.getStudents().get(1).getName());
+        Subscription subscription = session.get(Subscription.class, new SubscriptionId(course, course.getStudents().get(1)));
+        System.out.println("Course №1: " + course.getName() + " - Учитель:  " + course.getTeacher().getName() + " - Студент №1:  "
+                + course.getStudents().get(1).getName() + " - Дата подписки: " + format.format(subscription.getSubscriptionDate().getTime()));
 
-        Purchase purchase = session.get(Purchase.class, new PurchaseId("Жариков Афанасий", "Веб-разработчик c 0 до PRO"));
-        System.out.println(format.format(purchase.getSubscriptionDate().getTime()));
-        Subscription subscription = session.get(Subscription.class, new SubscriptionId(1,2));
-        System.out.println(format.format(subscription.getSubscriptionDate().getTime()));
+        /*Purchase purchase = session.get(Purchase.class, new PurchaseId("Жариков Афанасий", "Веб-разработчик c 0 до PRO"));
+        System.out.println(format.format(purchase.getSubscriptionDate().getTime()));*/
 
         GetSessionFactory.closeSession();
     }
