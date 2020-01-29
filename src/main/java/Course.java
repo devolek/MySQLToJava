@@ -7,7 +7,7 @@ public class Course
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -22,8 +22,8 @@ public class Course
     @ManyToOne(cascade = CascadeType.ALL)
     private Teacher teacher;
 
-    @Column(name = "students_count")
-    private int studentsCount;
+    @Column(name = "students_count", nullable = true)
+    private Integer studentsCount;
 
     private int price;
 

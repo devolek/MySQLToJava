@@ -1,5 +1,9 @@
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main
 {
@@ -21,6 +25,32 @@ public class Main
         /*Purchase purchase = session.get(Purchase.class, new PurchaseId("Жариков Афанасий", "Веб-разработчик c 0 до PRO"));
         System.out.println(format.format(purchase.getSubscriptionDate().getTime()));*/
 
+
+        String hql = "From " + Purchase.class.getSimpleName();
+        String findCourseId = "From " + Course.class.getSimpleName() + " Where name = ";
+        String findStudentId = "From " + Student.class.getSimpleName() + " Where name = ";
+        List<Purchase> purchaseList = session.createQuery(hql).getResultList();
+
+        Transaction transaction = session.beginTransaction();
+
+        purchaseList.forEach(purchase -> {
+            String studentName = purchase.getStudentName();
+            String courseName = purchase.getCourseName();
+            List<Student> studentList = session.createQuery(findStudentId + "'" + studentName + "'").getResultList();
+            List<Course> courseList = session.createQuery(findCourseId + "'" + courseName + "'").getResultList();
+            int studentId = studentList.get(0).getId();
+            int courseId = courseList.get(0).getId();
+            int price = purchase.getPrice();
+
+            LinkedPurchase linkedPurchase = new LinkedPurchase();
+            linkedPurchase.setCourseId(courseId);
+            linkedPurchase.setStudentId(studentId);
+            linkedPurchase.setPrice(price);
+
+            session.save(linkedPurchase);
+        });
+
+        transaction.commit();
         GetSessionFactory.closeSession();
     }
 }
